@@ -38,12 +38,14 @@ public class RouteMatcher {
         List<Route> matchRoutes =  new ArrayList<Route>();
 
       for(Route route :this.routeList) {
-
           if (PathUtil.matchesPath(path, route.getPath()) && method.equals(route.getMethod())) {
               matchRoutes.add(route);
-              giveMacth(path,method,matchRoutes);
+              giveMacth(path, method, matchRoutes);
               return matchRoutes.size() > 0 ? matchRoutes.get(0) : null;
-          } else{
+          }
+      }
+      for(Route route :this.routeList) {
+            {
              Route route1 = PathUtil.findRestRoute(route,path,method);
               if (null == route1){
                   continue;

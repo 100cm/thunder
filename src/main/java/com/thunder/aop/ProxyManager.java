@@ -24,12 +24,10 @@ public class ProxyManager {
             @Override
             public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
 
-                if (method.getAnnotationsByType(aopTarget.getAnnotation()).length==0 && aopTarget.getCls().getAnnotationsByType(aopTarget.getAnnotation()).length==0){
-                    MethodUtil.invokeMethod(BeanHelper.getBean(aopTarget.getClass()),method,objects);
-                    return null;
-                }
 
-                return new ProxyChain(aopTarget.getCls(),o,method,methodProxy,objects,proxyList).doProxyChain();
+                    return new ProxyChain(aopTarget.getCls(),o,method,methodProxy,objects,proxyList,aopTarget.getAnnotation()).doProxyChain();
+
+
             }
         });
 

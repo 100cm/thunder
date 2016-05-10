@@ -2,6 +2,7 @@ package com.thunder.aop;
 
 import net.sf.cglib.proxy.MethodProxy;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +27,27 @@ public class ProxyChain {
 //    代理方法
     private final MethodProxy methodProxy;
     private final Object[] params;
+
+    private final Class<? extends  Annotation> annotation;
+
+
+    public Class<? extends Annotation> getAnnotation() {
+        return annotation;
+    }
+
+
+
     private List<Proxy> proxyList = new ArrayList<Proxy>();
     private  int  proxyIndex = 0;
 
-    public ProxyChain(Class<?> targetClass, Object targetObject, Method targerMethod, MethodProxy methodProxy, Object[] params, List<Proxy> proxyList) {
+    public ProxyChain(Class<?> targetClass, Object targetObject, Method targerMethod, MethodProxy methodProxy, Object[] params, List<Proxy> proxyList,Class<? extends Annotation> annotation) {
         this.targetClass = targetClass;
         this.targetObject = targetObject;
         this.targerMethod = targerMethod;
         this.methodProxy = methodProxy;
         this.params = params;
         this.proxyList = proxyList;
+        this.annotation = annotation;
     }
 
     public Class<?> getTargetClass() {
@@ -67,7 +79,6 @@ public class ProxyChain {
     }
 
     public Object doProxyChain() throws Throwable {
-
         Object methodResult;
         if (proxyIndex<proxyList.size()){
             methodResult = proxyList.get(proxyIndex++).doProxy(this);

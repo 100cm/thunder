@@ -24,6 +24,7 @@ public final class Aophelper {
                 AopTarget aopTarget = targetEntry.getKey();
                 List<Proxy> proxyList = targetEntry.getValue();
                 Object proxy = ProxyManager.createProxy(aopTarget,proxyList);
+                System.out.println("aop add class" + aopTarget.getCls());
                 BeanHelper.setBean(aopTarget.getCls(),proxy);
             }
         } catch (IllegalAccessException e) {
@@ -64,7 +65,6 @@ public final class Aophelper {
         if (null != annation && !annation.equals(Aspect.class)){
             targetClassSet.addAll(ClassHelper.getAspectClassSetByAnnotation(annation));
         }
-        System.out.println(targetClassSet);
         return targetClassSet;
     }
 

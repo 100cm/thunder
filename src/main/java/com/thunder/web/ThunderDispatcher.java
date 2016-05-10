@@ -97,10 +97,20 @@ public class ThunderDispatcher extends HttpServlet {
         //请求的uri
              String uri =httpServletRequest.getServletPath();
 
+             Resource resource = this.resourceMatcher.findResource(PathUtil.getResource(uri));
+
             Route route ;
         //优先判断是否属于资源。
 
-            route= routeMatcher.findRoute(uri,httpServletRequest.getMethod());
+
+                 if (resource !=null) {
+
+                     route= routeMatcher.findRoute(PathUtil.matchResourceRoute(uri),httpServletRequest.getMethod());
+
+                   }else{
+
+                     route= routeMatcher.findRoute(uri,httpServletRequest.getMethod());
+                 }
 
             if (route != null) {
                     // 实际执行方法

@@ -130,18 +130,14 @@ public final class Thunder {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
             controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,Var.POST, method,controller);
-
         }
          catch (NoSuchMethodException e) {
            LOGGER.info("uri:"+path +"-->"+Var.GET);
         }
         return this;
-
-
     }
 
     public Thunder addDeleteRoute(String path ,String methodName ,Object controller){
-
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
             controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
@@ -150,7 +146,6 @@ public final class Thunder {
 
         }
         return this;
-
     }
 
     public Thunder addPutRoute(String path ,String methodName ,Object controller){
@@ -163,8 +158,6 @@ public final class Thunder {
             e.printStackTrace();
         }
         return this;
-
-
     }
 
     public Thunder addPatchRoute(String path ,String methodName ,Object controller){
@@ -200,9 +193,8 @@ public final class Thunder {
 
     public Thunder addResource(String name ,Object controller)  {
 
-        this.resources.addResource(name,controller);
-
-
+         this.resources.addResource(name,controller);
+        controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
         try {
 
             Method index =controller.getClass().getMethod("index", Request.class , Response.class);

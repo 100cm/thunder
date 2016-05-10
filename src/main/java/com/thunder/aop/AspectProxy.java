@@ -1,5 +1,8 @@
 package com.thunder.aop;
 
+import com.thunder.Annotation.Controller;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
@@ -10,7 +13,12 @@ public class AspectProxy  implements  Proxy{
     public Object doProxy(ProxyChain proxyChain) throws Throwable {
         Object result  = null;
         Class<?> c =  proxyChain.getTargetClass();
+        Class<? extends Annotation> a = proxyChain.getAnnotation();
         Method  method = proxyChain.getTargerMethod();
+        if(method.getAnnotationsByType(a).length==0){
+            result = proxyChain.doProxyChain();
+            return result;
+        }
         Object[] params = proxyChain.getParams();
         begin();
         try {

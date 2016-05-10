@@ -152,11 +152,12 @@ public  abstract class ActiveRecordBase {
            }
             i++;
             if(null!= map.get(key)&&i < map.size()&&key!="id"){
-
                 params += ",";
             }
         }
         sql += params + " where id = " + "'" +map.get("id")+"'";
+//        int pos = sql.lastIndexOf(",");
+//        sql = sql.substring(0,pos)+sql.substring(pos+1);
         logger.info(Constant.LOG_AC_NAME+"execute sql " + sql);
         DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
 
@@ -179,7 +180,7 @@ public  abstract class ActiveRecordBase {
     public static void update_by_sql(String sql){
         Logger logger = LogManager.getLogger(ActiveRecordBase.class);
         logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
-        DB.sql2o.beginTransaction().createQuery(sql).executeUpdate();
+        DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
     }
 
     public static Object insert_by_sql(String sql){
@@ -187,6 +188,8 @@ public  abstract class ActiveRecordBase {
         logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
         return DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().getKey();
     }
+
+
 
 
 

@@ -125,7 +125,7 @@ public  class Request {
      * @param path
      * @throws IOException
      */
-    public void saveFile(String path) throws IOException {
+    public String saveFile(String path) throws IOException {
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(1024*1024*20);
@@ -142,6 +142,7 @@ public  class Request {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
+        String filePath ="";
         for(Iterator it=items.iterator(); it.hasNext();) {
             FileItem item = (FileItem) it.next();
             String fileName = item.getName()==null? "" :item.getName();
@@ -149,7 +150,9 @@ public  class Request {
                 //获得文件类型
                 String contentType = item.getContentType();
                 FileOutputStream fos = new FileOutputStream(file.getPath()+"/" + System.currentTimeMillis() +
-                        fileName.subSequence(fileName.indexOf("."), fileName.length()));
+                        fileName);
+                filePath = file.getPath()+"/" + System.currentTimeMillis() +
+                        fileName;
                 if (item.isInMemory()) {
                     fos.write(item.get());
                 } else {
@@ -165,6 +168,9 @@ public  class Request {
             }
             }
 
-
+        return filePath;
         }
+
+
+
 }
